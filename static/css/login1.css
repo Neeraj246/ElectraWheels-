@@ -1,0 +1,94 @@
+*{
+    margin: 7px;
+    padding: 3px;
+    box-sizing: border-box;
+}
+body{
+    background-image: url(https://i.pinimg.com/originals/88/d7/90/88d7900a323a45215372970ab023b13d.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    align-items: center;
+    backdrop-filter: blur(6px);
+}
+h1{
+    text-align: center;
+}
+
+
+.login{
+    background-color: rgba(202, 194, 194, 0.596);
+    padding: 80px ;
+    border-radius: 8px;
+    width: 30%;
+}
+
+input{
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px rgb(9, 9, 9) solid;
+    outline: none;
+    margin-top: 20px;
+    width: 100%;
+    margin-bottom:  20px;
+    font-size: 20px;
+}
+input::placeholder{
+    color: black;
+}
+
+button{
+    margin-left: 70px;
+    padding  : 8px;
+    width: 50%;
+    margin-top: 30px;
+    background-image: linear-gradient(rgb(27, 90, 66),rgb(242, 242, 235));
+    border-radius: 8px;
+}
+
+a{
+    text-decoration: none;
+    margin-left: 165px;
+    color: rgb(1, 9, 1);
+}
+/* .main{
+    margin: auto;
+    margin-top: 200px;
+    background-color: rgba(125, 196, 153, 0.2);
+    padding: 20px;
+    border: 5px;
+    border-radius: 10px;
+    width: 300px;
+    backdrop-filter: blur(100px);
+    text-align: center;
+}
+h1{
+    color: aliceblue;
+}
+.login{
+    color: aliceblue;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 4px;
+    border-radius: 5px;
+}
+button{
+    width: 100%;
+    padding: 10px;
+    background-color: aliceblue;
+    border: none;
+    border-radius: 5px;
+}
+input{
+    width: 100%;
+    padding: 5px;
+    border-radius: 10px;
+
+
+}
+.forgot{
+    color: aquamarine;
+} */

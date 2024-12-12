@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>feedback</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        body{
+            display: flex;
+            justify-content: center;
+            height: 100vh;
+            align-items: center;
+        }
+        .card{
+            background-color: rgb(255, 0, 0);
+            padding: 80px;
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.449);
+        }
+        input{
+            padding: 6px;
+            margin-top: 20px;
+            border-radius: 10px;
+            border: none;
+            margin-bottom: 20px;
+            transition: 0.5s ease;
+        }
+        input:hover{
+            transform: scale(1.1);
+        }
+
+        button{
+            margin-left: 90px;
+            margin-top: 40px;
+            padding: 15px;
+            width: 100px;
+            border: none;
+            border-radius: 10px;
+        
+        }   
+        h2{
+            margin-bottom: 10px;
+            text-align: center;
+        
+        }
+   
+        
+       
+      
+    </style>
+</head>
+<body>
+        <Form class="card">
+        <h2>FEEDBACK FORM</h2>
+        <table>
+            <tr>
+        <td><label for="name">Name:</label></td>
+        <td><input type="text" id="name" name="name" placeholder="your name"></td></tr>
+        <tr>
+            <td>
+        <label for="feedback">Feedback:</label></td>
+       <td> <input type="text" id="feedback" name="feedback" placeholder="feedback"></td></tr>
+       <tr><td> <label for="reply">Reply:</label></td>
+        <td><input type="text" id="reply" name="reply" placeholder="reply"></td>    </tr>
+    </table>
+        <button type="submit">Send</button>
+        </Form>
+    
+</body>
+</html>

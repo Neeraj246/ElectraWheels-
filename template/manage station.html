@@ -1,0 +1,35 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/td.css'%}">
+</head>
+<body>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Station</th>
+            <th>Address</th>
+            <th>Email</th>
+            <th>StationNumber</th>
+            <th></th>
+        </tr>
+        {% for i in obj %}
+        <tr>
+            <td>{{ forloop.counter}}</td>
+
+            <td>{{i.Name}}</td>
+            <td>{{i.Address}}</td>
+            <td>{{i.Email}}</td>
+            <td>{{i.StationNumber}}</td>
+            <td><button>accept</button><br><br>
+            <button>reject</button></td>
+        </tr>
+        {% endfor %}
+
+    </table>
+    
+</body>
+</html>
