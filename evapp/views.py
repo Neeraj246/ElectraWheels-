@@ -73,6 +73,67 @@ class DeleteUser(View):
         obj = Logintable.objects.get(id=id)
         obj.delete()
         return HttpResponse('''<script> alert('Deleted Successfully'); window.location.href='/user'; </script>''')
+class AcceptStation(View):
+    def get(self,request,id):
+       obj=Logintable.objects.get(id=id)
+       obj.type="station"
+       obj.save()
+       return HttpResponse('''<script> alert('Accepted Successfully'); window.location.href='/station'; </script>''')
+class RejectStation(View):
+    def get(self,request,id):
+       obj=Logintable.objects.get(id=id)
+       obj.type="reject"
+       obj.save()
+       return HttpResponse('''<script> alert('Rejected '); window.location.href='/station'; </script>''')    
+class Acceptservicecenter(View):
+    def get(self,request,id):
+       obj=Logintable.objects.get(id=id)
+       obj.type="service center"
+       obj.save()
+       return HttpResponse('''<script> alert('Accepted Successfully'); window.location.href='/service'; </script>''')
+class Rejectservicecenter(View):
+    def get(self,request,id):
+       obj=Logintable.objects.get(id=id)
+       obj.type="reject"
+       obj.save()
+       return HttpResponse('''<script> alert('Reject'); window.location.href='/service'; </script>''')
+class Slotpage(View):
+    def get(self,request):
+        obj = SlotTable.objects.all()
+        return render(request, 'slottable.html',{'obj':obj})
+class Sparepage(View):
+    def get(self,request):
+        obj = SpareTable.objects.all()
+        return render(request, 'sparetable.html',{'obj':obj})
+
+class Sparebookingpage(View):
+    def get(self,request):
+        obj = SpareBookingTable.objects.all()
+        return render(request, 'sparebookingtable.html',{'obj':obj})
+    
+class Deleteslot(View):
+    def get(self,request, id):
+        obj = SlotTable.objects.get(id=id)
+        obj.delete()
+        return HttpResponse('''<script> alert('Deleted Successfully'); window.location.href='/slot'; </script>''')    
+    
+class Deletespare(View):
+    def get(self,request, id):
+        obj = SpareTable.objects.get(id=id)
+        obj.delete()
+        return HttpResponse('''<script> alert('Deleted Successfully'); window.location.href='/spares'; </script>''')    
 
 
 
+
+class Reply(View):
+    def get(self,request, c_id):
+        obj = ComplaintTable.objects.get(id=c_id)
+        return render(request, 'reply.html',{'obj': obj})    
+    
+    def post(self,request, c_id):
+        reply=request.POST['Reply']
+        obj = ComplaintTable.objects.get(id=c_id)
+        obj.Reply = reply
+        obj.save()
+        return redirect('complaint')

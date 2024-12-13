@@ -46,7 +46,7 @@ class ComplaintTable(models.Model):
 
 class SpareTable(models.Model):
     STATION = models.ForeignKey(StationTable, on_delete=models.CASCADE)
-    Spare_name = models.CharField(max_length=30, blank=True, null=True)
+    Name = models.CharField(max_length=30, blank=True, null=True)
     Amount = models.IntegerField(blank=True, null=True)
     Details = models.CharField(max_length=30, blank=True, null=True)
 

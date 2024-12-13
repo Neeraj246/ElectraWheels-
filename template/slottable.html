@@ -13,16 +13,21 @@
             <th>slot name</th>
             <th> amount</th>
             <th>details</th>
+            <th>status</th>
             <th></th>
         </tr>
+        {% for i in obj %}
         <tr>
-            <th>1</th>
-            <th>2</th>
-            <th>sssd</th>
-            <th>45</th>
-            <td><button>edit</button><br>
-            <button>delete</button></td>
+            <td>{{ forloop.counter}}</td>
+            <td>{{i.STATION.Name}}</td>
+            <td>{{i.Amount}}</td>
+            <td>{{i.Details}}</td>
+            <td>{{i.Status}}</td>
+            <td>
+                <a href="/delete_user/{{i.id}}">Delete</a>
+            </td>
         </tr>
+        {% endfor %}
     </Table>
 </body>
 </html>

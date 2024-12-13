@@ -13,15 +13,18 @@
             <th>spare name</th>
             <th>amount</th>
             <th>details</th>
+            <th></th>
         </tr>
+        {% for i in obj %}
         <tr>
-            <td>1</td>
-            <td>23</td>
-            <td>df</td>
-            <td>fg</td>
-            <td><button>edit</button><br>
-            <button>delete</button></td>
+            <td>{{ forloop.counter}}</td>
+            <td>{{i.STATION.Name}}</td>
+            <td>{{i.Amount}}</td>
+            <td>{{i.Details}}</td>
+            <td><a href="/delete_spare/{{i.id}}">Delete</a>
+            </td>
         </tr>
+        {% endfor %}
     </table>
 </body>
 </html>

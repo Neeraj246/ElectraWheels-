@@ -13,6 +13,7 @@
             <th>user_ID</th>
             <th>complaint name</th>
             <th>Date</th>
+            <th>Reply</th>
             <th></th>
         </tr>
         {% for i in obj %}
@@ -22,7 +23,7 @@
             <th>{{i.Complaint}}</th>
             <th>{{i.Date}}</th>
             <th>{{i.Reply}}</th>
-            <td><button>reply</button></td>
+            <td><a href="/reply/{{ i.id }}">reply</a></td>
         </tr>
         {% endfor %}
     </Table>

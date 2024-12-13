@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/td.css'%}">
+</head>
+<body>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>User</th>
+            <th>Slot</th>
+            <th>SpareName</th>
+            <th>Amount</th>
+            <th>Quantity</th>
+            <th>Status</th>
+            <th></th>
+
+        </tr>
+        {% for i in obj %}
+        <tr>
+        <td>{{ forloop.counter}}</td>
+        <td>{{i.USER.Name}}</td>
+        <td>{{i.SLOT.Name}}</td>
+        <td>{{i.SpareName}}</td>
+        <td>{{i.Amount}}</td>
+        <td>{{i.Quantity}}</td>
+        <td>{{i.Status}}</td>
+        <td></td>
+
+        </tr>
+        {% endfor %}
+
+
+    </table>
+    
+
+
+    
+</body>
+</html>

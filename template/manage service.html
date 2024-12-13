@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="{% static 'css/td.css'%}">
+    <link rel="stylesheet" href="{% static 'css/td.css' %}">
 </head>
 <body>
-    <table>
+    <table border="2">
         <tr>
             <th>ID</th>
             <th>Service centers</th>
@@ -24,8 +24,8 @@
             <td>{{i.Phone}}</td>
             <td>{{i.Email}}</td>
             <td>{{i.Address}}</td></td>
-            <td><button>accept</button><br><br>
-            <button>reject</button></td>
+            <td><a href="/accept_service_center/{{i.LOGIN.id}}">accept</a><br><br>
+            <a href="/reject_service_center/{{i.LOGIN.id}}">reject</a></td>
         </tr>
         {% endfor %}
     </table>
