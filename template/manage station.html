@@ -24,8 +24,8 @@
             <td>{{i.Address}}</td>
             <td>{{i.Email}}</td>
             <td>{{i.StationNumber}}</td>
-            <td><a href="/accept_station/{{i.LOGIN.id}}">accept</a><br><br>
-            <a href="/reject_station/{{i.LOGIN.id}}">reject</a></td>
+            <td><a href="/accept_station/{{i.LOGIN.id}}" id="accept">accept</a><br><br>
+            <a href="/reject_station/{{i.LOGIN.id}}" id="reject">reject</a></td>
         </tr>
         {% endfor %}
 

@@ -5,6 +5,8 @@ from django.views import View
 from django.contrib.auth import authenticate
 from django.contrib import messages
 from evapp.models import *
+from rest_framework.views import APIView
+from rest_framework.response import Response
 # Create your views here.
 
 class LoginPage(View):
@@ -124,8 +126,6 @@ class Deletespare(View):
         return HttpResponse('''<script> alert('Deleted Successfully'); window.location.href='/spares'; </script>''')    
 
 
-
-
 class Reply(View):
     def get(self,request, c_id):
         obj = ComplaintTable.objects.get(id=c_id)
@@ -137,3 +137,55 @@ class Reply(View):
         obj.Reply = reply
         obj.save()
         return redirect('complaint')
+    
+
+    # ///////////////////////////////////// USER API  ////////////////////////////////////
+
+
+class UserReg(APIView):
+    def get(self,request):
+        print("######################", request.data)
+        user_serial = UserSerializer(data=request.data)
+        login_serial = LoginSerializer(data=request.data)
+        data_valid = user_serial.is_valid()
+        login_valid = login_serial.is_valid()
+
+        if data_valid and login_valid:
+            print("&&&&&&&&&&&&&&&&&&&&&&&&")
+            password = request.data['password']
+            login_profile = login_serial.save(user_type='USER', password=password)
+            user_serial.save(LOGIN=login_profile)
+            return Response(user_serial.data, status=status.HTTP_201_CREATED)
+        return Response({'login_error': login_serial.errors if not login_valid else None,
+                         'user_error': user_serial.errors if not data_valid else None}, status=status.HTTP_400)
+
+
+
+
+class station_serializer(APIView):
+    def get(self,request):
+        station=StationTable.objects.all()
+        station_serializer = station_serializer(station, many = True)
+        return Response(station_serializer.data)
+        
+class ViewSlot(APIView):
+    def get(self,request):
+        slot=SlotTable.objects.all()
+        slot_serializer = slot_serializer(slot, many = True)
+        return Response(slot_serializer.data) 
+
+class ViewService(APIView):
+    def get(self,request):
+        service=ServiceTable.objects.all()
+        service_serializer = service_serializer(service, many = True)
+        return Response(service_serializer.data)   
+
+class ViewComplaint(APIView):
+    def get(self,request):
+        complaint=ComplaintTable.objects.all()
+        complaint_serializer = complaint_serializer(complaint, many = True)
+        return Response(complaint_serializer.data) 
+
+
+
+

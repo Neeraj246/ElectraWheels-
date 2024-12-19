@@ -8,6 +8,9 @@ body{
     justify-content: center;
     height: 100vh;
     align-items: center;
+    background-image: url(./img/ev.jpg);
+    background-size: cover;
+    backdrop-filter: blur(10px);
 }
 
 table{
@@ -15,6 +18,27 @@ table{
 }
 
 td,th{
-    border: 1px solid rgb(208, 23, 23);
+    border: 1px solid rgb(255, 255, 255);
     padding: 10px;
+}
+
+#accept{
+    padding: 5px;
+    background-color: green;
+    text-decoration: none;
+    color: white;
+}
+
+#reject{
+    padding: 5px;
+    background-color: red;
+    text-decoration: none;
+    color: white;
+}
+
+#delete{
+    padding: 5px;
+    background-color: rgb(0, 0, 0);
+    text-decoration: none;
+    color: white;
 }
