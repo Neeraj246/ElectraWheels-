@@ -1,4 +1,4 @@
-from myproject.evapp.models import *
+from evapp.models import *
 from rest_framework.serializers import ModelSerializer
 
 

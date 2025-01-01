@@ -26,5 +26,9 @@ urlpatterns = [
     path('delete_slot/<int:id>',Deleteslot.as_view(), name="delete_slot"),
     path('delete_spare/<int:id>',Deletespare.as_view(), name="delete_spare"),
     path('reply/<int:c_id>',Reply.as_view(), name="reply"),
+# /////////////////////////////////// API ////////////////////////////////////
+
+    path('LoginPageApi',LoginPageApi.as_view(), name='LoginPageApi'),
+    
     
 ]

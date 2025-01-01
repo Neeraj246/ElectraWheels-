@@ -21,7 +21,8 @@ class UserTable(models.Model):
 class StationTable(models.Model):
     LOGIN=models.ForeignKey(Logintable, on_delete=models.CASCADE)
     Name = models.CharField(max_length=30, blank=True, null=True)
-    Address = models.CharField(max_length=30, blank=True, null=True)
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
     Email = models.CharField(max_length=30, blank=True, null=True)
     StationNumber = models.CharField(max_length=30, blank=True, null=True)
 

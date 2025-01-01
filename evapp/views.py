@@ -7,6 +7,10 @@ from django.contrib import messages
 from evapp.models import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
+
+from evapp.serializer import *
+
 # Create your views here.
 
 class LoginPage(View):
@@ -140,7 +144,37 @@ class Reply(View):
     
 
     # ///////////////////////////////////// USER API  ////////////////////////////////////
+class LoginPageApi(APIView):
+    def post(self, request):
+        print("***********")
+        response_dict = {}
 
+        # Get data from the request
+        username = request.data.get("email")
+        password = request.data.get("password")
+        print("username", username, password)
+        # Validate input
+        if not username or not password:
+            response_dict["message"] = "failed"
+            return Response(response_dict, status=status.HTTP_400_BAD_REQUEST)
+
+        # Fetch the user from LoginTable
+        t_user = Logintable.objects.filter(username=username,password=password).first()
+
+        if not t_user:
+            response_dict["message"] = "failed"
+            return Response(response_dict, status=status.HTTP_401_UNAUTHORIZED)
+
+        # # Check password using check_password
+        # if not check_password(password, t_user.password):
+        #     response_dict["message"] = "failed"
+        #     return Response(response_dict, status=HTTP_401_UNAUTHORIZED)
+
+        # Successful login response
+        response_dict["message"] = "success"
+        response_dict["login_id"] = t_user.id
+
+        return Response(response_dict, status=status.HTTP_200_OK)
 
 class UserReg(APIView):
     def get(self,request):
@@ -162,7 +196,7 @@ class UserReg(APIView):
 
 
 
-class station_serializer(APIView):
+class ViewStation(APIView):
     def get(self,request):
         station=StationTable.objects.all()
         station_serializer = station_serializer(station, many = True)
