@@ -29,6 +29,8 @@ urlpatterns = [
 # /////////////////////////////////// API ////////////////////////////////////
 
     path('LoginPageApi',LoginPageApi.as_view(), name='LoginPageApi'),
+    path('viewStations',ViewStation.as_view(), name='viewStations'),
+
     
     
 ]

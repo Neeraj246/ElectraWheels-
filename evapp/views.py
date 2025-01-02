@@ -173,6 +173,7 @@ class LoginPageApi(APIView):
         # Successful login response
         response_dict["message"] = "success"
         response_dict["login_id"] = t_user.id
+        response_dict["Type"] = t_user.type
 
         return Response(response_dict, status=status.HTTP_200_OK)
 
@@ -197,10 +198,18 @@ class UserReg(APIView):
 
 
 class ViewStation(APIView):
-    def get(self,request):
-        station=StationTable.objects.all()
-        station_serializer = station_serializer(station, many = True)
-        return Response(station_serializer.data)
+    def post(self,request):
+        latitude = request.data.get("lalitude")
+
+        longitude = request.data.get("logitude")
+        findlatitude = latitude-100.260964410650256
+        findlongitude = longitude-100.260964410650256
+
+        print("5555555555555555555555555555555555555", latitude, longitude)
+        station=StationTable.objects.filter()
+        print("444444444444444444444444", station)
+        serializer = station_serializer(station, many = True)
+        return Response(serializer.data)
         
 class ViewSlot(APIView):
     def get(self,request):

@@ -5,7 +5,7 @@ from rest_framework.serializers import ModelSerializer
 class UserSerializer(ModelSerializer):
     class Meta:
         model=UserTable
-        fields=['LOGINID', 'name','place','age','phone','email']
+        fields=[ 'Name','Address','Vehiclenumber','Phone','Email']
 
 
 class LoginSerializer(ModelSerializer):
@@ -16,22 +16,41 @@ class LoginSerializer(ModelSerializer):
 class station_serializer(ModelSerializer):
     class Meta:
         model = StationTable
-        fields = ['image', 'station_id']
+        fields = ['Name', 'latitude','longitude','Email','StationNumber']
 
 
 class slot_serializer(ModelSerializer):
     class Meta:
         model = SlotTable
-        fields = ['image', 'slot_id'] 
+        fields = ['Name', 'Amount','Details','Status'] 
 
 
 class service_serializer(ModelSerializer):
     class Meta:
         model = ServiceTable
-        fields = ['image', 'service_id']               
+        fields = ['Name', 'Email','Phone','Address']               
 
 
 class complaint_serializer(ModelSerializer):
     class Meta:
         model = ComplaintTable
-        fields = ['image', 'complaint_id']
+        fields = ['Complaint', 'Date','Reply']
+
+
+class feedback_serializer(ModelSerializer):
+    class Meta:
+        model=FeedbackTable
+        fields=['Feedback','Date','Review']      
+
+
+class spare_serializer(ModelSerializer):
+    class Meta:
+        model=SpareTable
+        fields=['Name','Amount','Details']     
+
+
+class sparebooking_serializer(ModelSerializer):
+    class Meta:
+        model=SpareBookingTable
+        fields=['SpareName','Amount','Quantity','Status']             
+
