@@ -35,15 +35,18 @@ class ServiceTable(models.Model):
 
 class FeedbackTable(models.Model):
     USER = models.ForeignKey(UserTable, on_delete=models.CASCADE)
+    Chargingstation = models.ForeignKey(StationTable, on_delete=models.CASCADE,null=True,blank=True)
     Feedback = models.CharField(max_length=30, blank=True, null=True)
-    Date = models.DateField(max_length=30, blank=True,null=True )
-    Review = models.CharField(max_length=30, blank=True ,null=True)
+    Date = models.DateField(auto_now_add=True, blank=True,null=True )
+    Rate = models.CharField(max_length=30, blank=True ,null=True)
 
 class ComplaintTable(models.Model):
     USER = models.ForeignKey(UserTable, on_delete=models.CASCADE)
-    Complaint = models.CharField(max_length=30, blank=True, null=True)
-    Date = models.DateField(max_length=30, blank=True, null=True)
-    Reply = models.CharField(max_length=30, blank=True, null=True)
+    Complaint = models.CharField(max_length=100, blank=True, null=True)
+    Description = models.CharField(max_length=100, blank=True, null=True)
+    Category = models.CharField(max_length=100, blank=True, null=True)
+    Date = models.DateField(auto_now_add=True, blank=True, null=True)
+    Reply = models.CharField(max_length=100, blank=True, null=True)
 
 class SpareTable(models.Model):
     STATION = models.ForeignKey(StationTable, on_delete=models.CASCADE)
@@ -66,4 +69,3 @@ class SpareBookingTable(models.Model):
     Quantity = models.IntegerField(blank=True, null=True)
     Status = models.CharField(max_length=30, blank=True, null=True)
 
-   

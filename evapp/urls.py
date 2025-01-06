@@ -26,11 +26,34 @@ urlpatterns = [
     path('delete_slot/<int:id>',Deleteslot.as_view(), name="delete_slot"),
     path('delete_spare/<int:id>',Deletespare.as_view(), name="delete_spare"),
     path('reply/<int:c_id>',Reply.as_view(), name="reply"),
+
+
 # /////////////////////////////////// API ////////////////////////////////////
 
     path('LoginPageApi',LoginPageApi.as_view(), name='LoginPageApi'),
     path('viewStations',ViewStation.as_view(), name='viewStations'),
+    path('submitfeedback',submitfeedback.as_view(), name='submitfeedback'),
+    path('ViewService',ViewService.as_view(), name='ViewService'),
+    path('ViewSpare',ViewSpare.as_view(), name='ViewSpare'),
+    path('ViewComplaint/<int:id>',ViewComplaint.as_view(),name='ViewComplaint'),
+    path('Addcomplaint',Addcomplaint.as_view(),name='Addcomplaint'),
+    path('ViewReview',ViewReview.as_view(),name='ViewReview'),
+    path('AddReview',AddReview.as_view(),name='AddReview'),
+    path('NearestStationsAPI/<int:latitude>/<int:longitude>',NearestStationsAPI.as_view(),name='NearestStationsAPI'),
+
 
     
+
+
+    #////////////////////////////station///////////////
+
+
+    path('ViewStations/',ServicePage.as_view(), name="service"),
+
+
+
+##########################################service#################################
+path('addparts', Addparts.as_view(), name='addparts'),
+path('regspa', RegSpa.as_view(), name='regspa'),
     
 ]

@@ -198,18 +198,60 @@ class UserReg(APIView):
 
 
 class ViewStation(APIView):
+    def get(self,request):
+        station=StationTable.objects.all()
+        serializer = station_serializer1(station, many = True)
+        return Response(serializer.data)
+
+
     def post(self,request):
         latitude = request.data.get("lalitude")
-
         longitude = request.data.get("logitude")
-        findlatitude = latitude-100.260964410650256
-        findlongitude = longitude-100.260964410650256
 
-        print("5555555555555555555555555555555555555", latitude, longitude)
+        print("view station ----------------->", latitude, longitude)
         station=StationTable.objects.filter()
-        print("444444444444444444444444", station)
+        print("station obj -----------------> ", station)
         serializer = station_serializer(station, many = True)
         return Response(serializer.data)
+from geopy.distance import geodesic
+
+def get_distance(coord1, coord2):
+    """
+    Calculate the distance between two coordinates using geodesic.
+    coord1 and coord2 should be tuples: (latitude, longitude)
+    """
+    return geodesic(coord1, coord2).km 
+from geopy.distance import geodesic
+
+class NearestStationsAPI(APIView):
+    def get(self, request,latitude,longitude):
+
+        
+        # User coordinates
+        user_coords = (latitude, longitude)
+        
+        # Get all stations
+        stations = StationTable.objects.all()
+        nearby_stations = []
+
+        # Loop through stations and check if they are within 5 km radius
+        for station in stations:
+            station_coords = (station.latitude, station.longitude)
+            distance = geodesic(user_coords, station_coords).km
+            if distance <= 5:
+                nearby_stations.append({
+                    'name': station.Name,
+                    'latitude': station.latitude,
+                    'longitude': station.longitude,
+                    'email': station.Email,
+                    'station_number': station.StationNumber,
+                    'distance_km': distance,
+                })
+
+        # Return the nearby stations in the response
+        return Response(nearby_stations, status=200)
+
+
         
 class ViewSlot(APIView):
     def get(self,request):
@@ -219,16 +261,82 @@ class ViewSlot(APIView):
 
 class ViewService(APIView):
     def get(self,request):
+        print('--------------view service   ---------------->',)
         service=ServiceTable.objects.all()
-        service_serializer = service_serializer(service, many = True)
-        return Response(service_serializer.data)   
+        print("-----------service -->", service)
+        serializer = service_serializer(service, many = True)
+        return Response(serializer.data)   
+
+class ViewSpare(APIView):
+    def get(self,request):
+        print('--------------view service   ---------------->',)
+        spare=SpareTable.objects.all()
+        print("-----------spares -->", spare)
+        serializer = spare_serializer(spare, many = True)
+        return Response(serializer.data)   
 
 class ViewComplaint(APIView):
+    def get(self,request,id):
+        complaint=ComplaintTable.objects.filter(USER__LOGIN_id=id).all()
+        complaint_ser = complaint_serializer1(complaint, many = True)
+        return Response(complaint_ser.data,status=status.HTTP_200_OK) 
+    
+class Addcomplaint(APIView):
+    def post(self,request):
+        serializer=complaint_serializer(data=request.data)
+        user_id=request.data.get('USER')
+        user_obj=UserTable.objects.get(LOGIN_id=user_id)
+        print(request.data)
+        print(serializer)
+        if serializer.is_valid():
+            serializer.save(USER=user_obj, Reply="pending")
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    
+class submitfeedback(APIView):
+    def post(self,request):
+        serializer=feedback_serializer(data=request.data)
+        print("@@@@@@@@@@@@@@@@@@@@@@@@",request.data)
+        user_id=request.data.get('USER')
+        station_id=request.data.get('Chargingstation')
+        user_obj=UserTable.objects.get(LOGIN_id=user_id)
+        station_obj=StationTable.objects.get(id=station_id)
+        
+        print(serializer)
+        if serializer.is_valid():
+            serializer.save(USER=user_obj, Chargingstation=station_obj)
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    
+class ViewReview(APIView):
     def get(self,request):
-        complaint=ComplaintTable.objects.all()
-        complaint_serializer = complaint_serializer(complaint, many = True)
-        return Response(complaint_serializer.data) 
+        complaint=FeedbackTable.objects.all()
+        complaint_ser = feedback_serializer(complaint, many = True)
+        return Response(complaint_ser.data) 
+    
+class AddReview(APIView):
+    def post(self,request):
+        serializer=feedback_serializer(data=request.data)
+        
+        print(request.data)
+        print(serializer)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    
 
 
 
+
+
+class Addparts(View):
+    def get(self, request):
+        return render(request, 'Service/Addparts.html')
+    
+
+class RegSpa(View):
+    def get(self, request):
+        return render(request, 'Station/reg.html')
+    
 

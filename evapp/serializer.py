@@ -17,6 +17,10 @@ class station_serializer(ModelSerializer):
     class Meta:
         model = StationTable
         fields = ['Name', 'latitude','longitude','Email','StationNumber']
+class station_serializer1(ModelSerializer):
+    class Meta:
+        model = StationTable
+        fields = ['id','Name', 'latitude','longitude','Email','StationNumber']
 
 
 class slot_serializer(ModelSerializer):
@@ -30,17 +34,20 @@ class service_serializer(ModelSerializer):
         model = ServiceTable
         fields = ['Name', 'Email','Phone','Address']               
 
-
 class complaint_serializer(ModelSerializer):
     class Meta:
         model = ComplaintTable
-        fields = ['Complaint', 'Date','Reply']
+        fields = ['Complaint','Description','Category']
+class complaint_serializer1(ModelSerializer):
+    class Meta:
+        model = ComplaintTable
+        fields = ['USER','Complaint','Description','Reply','Category']
 
 
 class feedback_serializer(ModelSerializer):
     class Meta:
         model=FeedbackTable
-        fields=['Feedback','Date','Review']      
+        fields=['Feedback','Rate']      
 
 
 class spare_serializer(ModelSerializer):
