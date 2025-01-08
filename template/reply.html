@@ -1,12 +1,8 @@
-{% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Message Form</title>
-    <link rel="stylesheet" href="{% static 'css/td.css' %}">
-</head>
-<body>
+{% extends 'admin_home.html'%}
+
+{%block body%}
+
+
     <!-- Form to send a message -->
     <form action="" method="post">
         {% csrf_token %}
@@ -20,5 +16,6 @@
         <!-- Submit Button -->
         <button type="submit">Send</button>
     </form>
-</body>
-</html>
+
+    {% endblock %}
+

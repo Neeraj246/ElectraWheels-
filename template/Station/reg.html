@@ -62,48 +62,87 @@
         button:hover {
             background-color: #3f51b5;
         }
+
+        button:disabled {
+            background-color: #ddd;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
     <div class="registration-container">
         <h2>Registration Form</h2>
-        <form id="registrationForm">
+        <form id="registrationForm" method="post">
+            {% csrf_token %}
+            <label for="Name">Name:</label>
+            <input type="text" id="Name" name="Name" required>
+
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
 
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+            <input type="email" id="email" name="Email" required>
+           
+            <label for="StationNumber">StationNumber:</label>
+            <input type="text" id="StationNumber" name="StationNumber" required>
 
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
 
             <label for="latitude">Latitude:</label>
-            <input type="text" id="latitude" name="latitude" readonly>
+            <input type="text" id="latitude" name="latitude" required>
 
             <label for="longitude">Longitude:</label>
-            <input type="text" id="longitude" name="longitude" readonly>
+            <input type="text" id="longitude" name="longitude" required>
 
-            <button type="button" onclick="getLocation()">Get My Location</button>
+            <button type="button" id="getLocationButton">Get My Location</button><br>
 
             <button type="submit">Register</button>
         </form>
     </div>
 
     <script>
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    var latitude = position.coords.latitude;
-                    var longitude = position.coords.longitude;
-                    document.getElementById("latitude").value = latitude;
-                    document.getElementById("longitude").value = longitude;
-                }, function(error) {
-                    alert("Unable to retrieve your location. Please enable location services.");
-                });
-            } else {
-                alert("Geolocation is not supported by your browser.");
-            }
-        }
+        // JavaScript for Geolocation
+        document.addEventListener("DOMContentLoaded", function () {
+            const getLocationButton = document.querySelector("#getLocationButton");
+            const latitudeInput = document.querySelector("#latitude");
+            const longitudeInput = document.querySelector("#longitude");
+
+            getLocationButton.addEventListener("click", function () {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        function (position) {
+                            const latitude = position.coords.latitude;
+                            const longitude = position.coords.longitude;
+
+                            // Set the latitude and longitude values in the inputs
+                            latitudeInput.value = latitude;
+                            longitudeInput.value = longitude;
+
+                            alert(`Location retrieved:\nLatitude: ${latitude}\nLongitude: ${longitude}`);
+                        },
+                        function (error) {
+                            switch (error.code) {
+                                case error.PERMISSION_DENIED:
+                                    alert("User denied the request for Geolocation. Please enable location services and refresh the page.");
+                                    break;
+                                case error.POSITION_UNAVAILABLE:
+                                    alert("Location information is unavailable.");
+                                    break;
+                                case error.TIMEOUT:
+                                    alert("The request to get user location timed out.");
+                                    break;
+                                default:
+                                    alert("An unknown error occurred.");
+                                    break;
+                            }
+                        }
+                    );
+                } else {
+                    alert("Geolocation is not supported by this browser.");
+                }
+            });
+        });
     </script>
 </body>
 </html>

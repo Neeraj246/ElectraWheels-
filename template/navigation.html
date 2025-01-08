@@ -1,145 +1,28 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-    *{
-        padding: 0;
-        margin: 0;
-    }
-body {
-  font-family: "Lato", sans-serif;
-}
+ {% extends 'admin_home.html'%}
 
-.sidebar {
-  height: 100%;
-  width: 0;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  background-color: #111;
-  overflow-x: hidden;
-  transition: 0.5s;
-  padding-top: 60px;
-}
-
-.sidebar a {
-  padding: 8px 8px 8px 32px;
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-  transition: 0.3s;
-}
-
-.sidebar a:hover {
-  color: #ebe7e7;
-}
-
-.sidebar .closebtn {
-  position: absolute;
-  top: 0;
-  right: 25px;
-  font-size: 36px;
-  margin-left: 50px;
-}
-
-.openbtn {
-    padding  : 8px;
-    margin-top: 30px;
-    background-color: transparent;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    transition: 0.5s ease;
-}
-
-.openbtn:hover {
-    border: 1px solid black;
-}
+ {%block body%}
 
 
 
-
-
-#main {
-  transition: margin-left .5s;
-  padding: 16px;
-}
-
-@media screen and (max-height: 450px) {
-  .sidebar {padding-top: 15px;}
-  .sidebar a {font-size: 18px;}
-}
-
-img{
-  height: 100%;
-  width: 100%;
-}
-
-.nav{
-    width: 100%;
-    padding: 10px;
-    background-color: rgb(35, 131, 83);
-    overflow: hidden;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-}
-.but{
-    margin-left: 70px;
-    padding  : 8px;
-    width: 10%;
-    margin-top: 30px;
-    border-radius: 8px;
-    margin-right: 40px;
-    border: none;
-    transition: 0.5s ease;
-  }
+    <div id="main">
+        <div class="stats">
+          <div class="card">
+            <h3 id="userCount">{{u}}</h3>
+            <p>Total Users</p>
+          </div>
+          <div class="card">
+            <h3 id="stationCount">{{s}}</h3>
+            <p>Total Stations</p>
+          </div>
+          <div class="card">
+            <h3 id="serviceCount">{{k}}</h3>
+            <p>Total Services</p>
+          </div>
+        </div>
+        <img src="https://img.freepik.com/premium-photo/ev-car-electric-vehicle-is-charging-charging-station-with-power-cable-supply-linked-blurring-energy-power-effect-generative-ai_28914-4326.jpg?w=1060" alt="Dashboard Image">
+        <div class="footer">
+          © 2025 Admin Dashboard. All Rights Reserved.
+        </div>
+      </div>
   
-.but:hover{
-    background-color: black;
-    color: rgb(210, 220, 228);
-}
-
-</style>
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-</head>
-<body>
-    <div class="nav">
-        <button class="openbtn" onclick="openNav()"><i class="material-icons">menu</i></button>  
-        <button class="but">logout</button>
-    </div>
-
-<div id="mySidebar" class="sidebar">
-  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><i class="material-icons">close</i></a>
-  <a href="/user">View User</a>
-  <a href="/station/">View Station</a>
-  <a href="/service">View Service center</a>
-  <a href="/feedback">View Feedback</a>
-  <a href="/complaint">View complaint</a>
-  <a href="/slot">View Slot</a>
-  <a href="/spares">View Spares</a>
-  <a href="/sparebooking">View Sparebooking</a>
-  
-</div>
-
-
- <img src="https://img.freepik.com/premium-photo/ev-car-electric-vehicle-is-charging-charging-station-with-power-cable-supply-linked-blurring-energy-power-effect-generative-ai_28914-4326.jpg?w=1060" alt="">
-
-<script>
-function openNav() {
-  document.getElementById("mySidebar").style.width = "250px";
-  document.getElementById("main").style.marginLeft = "250px";
-}
-
-function closeNav() {
-  document.getElementById("mySidebar").style.width = "0";
-  document.getElementById("main").style.marginLeft= "0";
-}
-</script>
-   
-</body>
-</html> 
+      {% endblock %}

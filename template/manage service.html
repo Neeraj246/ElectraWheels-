@@ -1,13 +1,9 @@
-{% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'css/td.css' %}">
-</head>
-<body>
-    <table border="2">
+{% extends 'admin_home.html'%}
+
+{%block body%}
+
+<div class="body">
+    <table class="table table-dark " style="width: 900px;">
         <tr>
             <th>ID</th>
             <th>Service centers</th>
@@ -24,11 +20,12 @@
             <td>{{i.Phone}}</td>
             <td>{{i.Email}}</td>
             <td>{{i.Address}}</td></td>
-            <td><a href="/accept_service_center/{{i.LOGIN.id}}">accept</a><br><br>
-            <a href="/reject_service_center/{{i.LOGIN.id}}">reject</a></td>
+            <td><a href="/accept_service_center/{{i.LOGIN.id}}" class="btn btn-primary">accept</a><br><br>
+            <a href="/reject_service_center/{{i.LOGIN.id}}" class="btn btn-danger">reject</a></td>
         </tr>
         {% endfor %}
     </table>
+</div>
     
-</body>
-</html>
+    
+    {% endblock %}

@@ -49,23 +49,28 @@ class ComplaintTable(models.Model):
     Reply = models.CharField(max_length=100, blank=True, null=True)
 
 class SpareTable(models.Model):
-    STATION = models.ForeignKey(StationTable, on_delete=models.CASCADE)
+    SERVICE = models.ForeignKey(ServiceTable, on_delete=models.CASCADE, null=True, blank=True)
+    image = models.FileField(upload_to='spare/', null=True, blank=True)
     Name = models.CharField(max_length=30, blank=True, null=True)
     Amount = models.IntegerField(blank=True, null=True)
     Details = models.CharField(max_length=30, blank=True, null=True)
 
 class SlotTable(models.Model):
-    STATION = models.ForeignKey(StationTable, on_delete=models.CASCADE)
-    Name = models.CharField(max_length=30, blank=True, null=True)
-    Amount = models.IntegerField(blank=True, null=True)
-    Details = models.TextField(max_length=30, blank=True, null=True)
+    STATION = models.ForeignKey(StationTable, on_delete=models.CASCADE, null=True, blank=True)
+    USER = models.ForeignKey(UserTable, on_delete=models.CASCADE, null=True, blank=True)
+    Amount = models.CharField(max_length=100,blank=True, null=True)
     Status = models.CharField(max_length=30, blank=True, null=True)
        
 class SpareBookingTable(models.Model):
-    USER = models.ForeignKey(UserTable, on_delete=models.CASCADE)   
-    SLOT = models.ForeignKey(SlotTable, on_delete=models.CASCADE)   
-    SpareName = models.CharField(max_length=30, blank=True, null=True)
-    Amount = models.IntegerField(blank=True, null=True)
-    Quantity = models.IntegerField(blank=True, null=True)
+    USER = models.ForeignKey(UserTable, on_delete=models.CASCADE, null=True, blank=True)   
+    SPARE = models.ForeignKey(SpareTable, on_delete=models.CASCADE, null=True, blank=True)   
     Status = models.CharField(max_length=30, blank=True, null=True)
 
+class Alert(models.Model):
+    Alert = models.CharField(max_length=100, null=True, blank=True)
+
+
+class Review(models.Model):
+    USER = models.ForeignKey(UserTable, on_delete=models.CASCADE, null=True, blank=True)
+    STATION = models.ForeignKey(StationTable, on_delete=models.CASCADE, null=True, blank=True)
+    Review = models.CharField(max_length=100, null=True, blank=True)

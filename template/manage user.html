@@ -1,13 +1,10 @@
-{% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'css/td.css'%}">
-</head>
-<body>
-    <table>
+{% extends 'admin_home.html'%}
+
+{%block body%}
+
+
+    <div class="body">
+       <table class="table table-dark table-striped" style="width: 700px;">
         <tr>
             <th>ID</th>
             <th>Name</th>
@@ -26,11 +23,12 @@
             <td>{{i.Phone}}</td>
             <td>{{i.Email}}</td>
             <td>{{i.Vehiclenumber}}</td>
-            <td><a href="/delete_user/{{i.LOGIN.id}}" id="delete">Delete</a></td>
+            <td><a href="/delete_user/{{i.LOGIN.id}}" class="btn btn-outline-danger" onclick="return confirm('are you confirm')">Delete</a></td>
         </tr>
         {% endfor %}
 
     </table>
-    
-</body>
-</html>
+</div>
+
+
+{% endblock %}

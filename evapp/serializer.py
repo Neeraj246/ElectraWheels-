@@ -53,11 +53,20 @@ class feedback_serializer(ModelSerializer):
 class spare_serializer(ModelSerializer):
     class Meta:
         model=SpareTable
-        fields=['Name','Amount','Details']     
+        fields=['Name','Amount','Details','image']     
 
 
 class sparebooking_serializer(ModelSerializer):
     class Meta:
         model=SpareBookingTable
-        fields=['SpareName','Amount','Quantity','Status']             
+        fields=['USER','SPARE','Status']             
+class bookinghistory_serializer(ModelSerializer):
+    class Meta:
+        model=SpareBookingTable
+        fields=['USER','SPARE','Status']
+
+class SlotTableserializer(ModelSerializer):
+    class Meta:
+        model = SlotTable
+        fields = ['STATION', 'USER','Amount','Status']
 

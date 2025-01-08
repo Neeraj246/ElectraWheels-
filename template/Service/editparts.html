@@ -1,0 +1,39 @@
+{% extends 'Service/Base.html'%}
+{%block body%}
+
+
+
+    <div class="container d-flex justify-content-center">
+        <div class="spare-parts-form-container col-md-6">
+            <h2 class="spare-parts-form-header">Add Spare Parts</h2>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="partName" class="form-label">Part Name</label>
+                    <input type="text" name="Name" value="{{n.Name}}" class="form-control" id="partName" placeholder="Enter part name">
+                </div>
+               
+            
+
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price</label>
+                    <input type="text" name="Amount" value="{{n.Amount}}" class="form-control" id="price" placeholder="Enter price">
+                </div>
+
+                <div class="input-group mb-3">
+                    <img src="{{n.image.url}}" height="100px" width="100px" alt="">
+                    <input type="file" name="image"  class="form-control" id="inputGroupFile02">
+                </div>
+
+                <div class="mb-3">
+                    <label for="details" class="form-label">details</label>
+                    <textarea type="number" name="Details" class="form-control" id="price" placeholder="Enter details">{{n.Details}}</textarea>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">edit Spare Part</button>
+            </form>
+         
+        </div>
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'admin_home.html'%}
+
+{%block body%}
+
+
+<div class="bod">
+<div class="container">
+    <h1>Send Alert to Everyone</h1>
+    <form id="alertForm" class="alert-form" method="post">
+        {% csrf_token %}
+        <textarea id="alertMessage" class="alert-message" name="Alert" placeholder="Enter your alert message here..."></textarea>
+        <button type="submit" class="send-button">Send Alert</button>
+    </form>
+    <p id="responseMessage" class="response-message"></p>
+</div>
+</div>
+
+
+
+{% endblock %}

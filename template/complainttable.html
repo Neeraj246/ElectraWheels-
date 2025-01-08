@@ -1,13 +1,10 @@
-{% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'css/td.css'%}">
-</head>
-<body>
-    <Table>
+{% extends 'admin_home.html'%}
+
+{%block body%}
+
+
+<div class="body">
+       <table class="table table-dark" style="width: 600px;">
         <tr>
             <th>ID</th>
             <th>user_ID</th>
@@ -23,10 +20,10 @@
             <th>{{i.Complaint}}</th>
             <th>{{i.Date}}</th>
             <th>{{i.Reply}}</th>
-            <td><a href="/reply/{{ i.id }}">reply</a></td>
+            <td><a href="/reply/{{ i.id }}" class="btn btn-primary">reply</a></td>
         </tr>
         {% endfor %}
-    </Table>
-    
-</body>
-</html>
+    </table>
+</div> 
+
+    {% endblock %}
