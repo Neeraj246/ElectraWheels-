@@ -1,35 +1,58 @@
 {% extends 'Service/Base.html'%}
 {%block body%}
+<div class="container-fluid d-flex justify-content-center">
+  <table class="table table-dark table-striped" style="width: 800px; margin-top: 90px;">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Part Name</th>
+        <th scope="col">Part Image</th>
+        <th scope="col">Price</th>
+        <th scope="col">Details</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in c %}
+      <!-- <tr>
+    <th scope="row">{{ forloop.counter }}</th>
+    <td>{{ i.Name }}</td>
+    <td>
+        {% if i.image %}
+            <img src="{{ i.image.url }}" height="100" width="100" alt="{{ i.Name }}">
+        {% else %}
+            <span>No image available</span>
+        {% endif %}
+    </td>
+    <td>{{ i.Amount }}</td>
+    <td>{{ i.Details }}</td>
+    <td>
+        <a href="edit/{{ i.id }}" class="btn btn-primary">Edit</a>
+        <a href="deleteprt/{{ i.id }}" onclick="return confirm('Are you sure you want to delete this part?')" class="btn btn-danger">Delete</a>
+    </td>
+</tr> -->
+<tr>
+  <th scope="row">{{ forloop.counter }}</th>
+  <td>{{ i.Name }}</td>
+  <td>
+      {% if i.image %}
+          <img src="{{ i.image.url }}" height="100" width="100" alt="{{ i.Name }}">
+      {% else %}
+          <span>No image available</span>
+      {% endif %}
+  </td>
+  <td>{{ i.Amount }}</td>
+  <td>{{ i.Details }}</td>
+  <td>
+      <a href="edit/{{ i.id }}" class="btn btn-primary">Edit</a>
+      <a href="deleteprt/{{ i.id }}" onclick="return confirm('Are you sure you want to delete this part?')" class="btn btn-danger">Delete</a>
+  </td>
+</tr>
 
-    <div class="contianer-fluid d-flex justify-content-center" >
-    <table class="table table-dark" style="width: 800px; margin-top: 90px;">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Part Name</th>
-            <th scope="col">Part Image</th>
-            <th scope="col">Price</th>
-            <th scope="col">Details</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for i in c %}
-          <tr>
-            <th scope="row">{{forloop.counter}}</th>
-            <td>{{i.Name}}</td>
-            <td><img src="{{i.image.url}}" height="100px" width="100px" alt=""></td>
-            <td>{{i.Amount}}</td>
-            <td>{{i.Details}}</td>
-            <td>
-              <a href="edit/{{i.id}}" class="btn btn-primary">Edit</a>
-              <a href="deleteprt/{{i.id}}" onclick="return confirm('are you sure you want to delete this part')" class="btn btn-danger">delete</a>
-            </td>
-            
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
 
     {% endblock %}

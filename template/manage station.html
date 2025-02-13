@@ -8,7 +8,6 @@
         <tr>
             <th>ID</th>
             <th>Station</th>
-            <th>Address</th>
             <th>Email</th>
             <th>StationNumber</th>
             <th></th>
@@ -18,11 +17,19 @@
             <td>{{ forloop.counter}}</td>
 
             <td>{{i.Name}}</td>
-            <td>{{i.Address}}</td>
             <td>{{i.Email}}</td>
             <td>{{i.StationNumber}}</td>
-            <td><a href="/accept_station/{{i.LOGIN.id}}" id="accept">accept</a><br><br>
-            <a href="/reject_station/{{i.LOGIN.id}}" id="reject">reject</a></td>
+            <td>
+                {% if i.LOGIN.status == "pending" %}
+                <a href="/accept_station/{{i.LOGIN.id}}" id="accept">accept</a><br><br>
+                <a href="/reject_station/{{i.LOGIN.id}}" id="reject">reject</a>
+                {% elif i.LOGIN.status == "active" %}
+                <a href="/reject_station/{{i.LOGIN.id}}" id="reject">reject</a>
+                {% elif i.LOGIN.status == "reject" %}
+                <a href="/accept_station/{{i.LOGIN.id}}" id="accept">accept</a><br><br>
+                {% endif %}
+
+            </td>
         </tr>
         {% endfor %}
 

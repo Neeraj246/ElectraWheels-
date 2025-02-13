@@ -76,7 +76,7 @@ class UserPage(View):
 
 class StationPage(View):
     def get(self,request):
-        obj = StationTable.objects.filter(LOGIN__status='pending')
+        obj = StationTable.objects.all()
         return render(request, 'manage station.html',{'obj':obj})
     
 class ComplaintPage(View):
@@ -414,7 +414,7 @@ class UserReg(APIView):
 
 class ViewStation(APIView):
     def get(self,request):
-        station=StationTable.objects.all()
+        station=StationTable.objects.filter(status='active')
         serializer = station_serializer1(station, many = True)
         print(serializer.data)
         return Response(serializer.data)
@@ -425,7 +425,7 @@ class ViewStation(APIView):
         longitude = request.data.get("logitude")
 
         print("view station ----------------->", latitude, longitude)
-        station=StationTable.objects.filter()
+        station=StationTable.objects.filter(status='active')
         print("station obj -----------------> ", station)
         serializer = station_serializer1(station, many = True)
         return Response(serializer.data)
@@ -564,6 +564,9 @@ class bookstationslot(APIView):
         data=request.data
         userid=UserTable.objects.get(LOGIN__id=request.data['USER'])
         data['USER']=userid.id
+        station_obj = StationTable.objects.get(id=request.data.get('STATION')) 
+        station_obj.status="using"
+        station_obj.save()
         serializer=SlotTableserializer(data=request.data)
         print("@@@@@@@@@@@@@@@@@@@@@@@@",request.data)
         if serializer.is_valid():
@@ -576,6 +579,20 @@ class bookstationslothistory(APIView):
         slot=SlotTable.objects.filter(USER__LOGIN__id=id).all()
         serializer=SlotTableserializer(slot,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
+        
+class bookinStatus(APIView):
+    def post(self,request,lid):
+        slot_id = request.data.get("id")
+        station_id=request.data.get('station')
+        print("slottttttttttttttt id", slot_id)
+        print("statttttttttttttttt id", station_id)
+        slot_obj=SlotTable.objects.get(id=slot_id)
+        slot_obj.Status = "activated"
+        slot_obj.save()
+        station_obj=StationTable.objects.get(id=station_id)
+        station_obj.status = "active"
+        station_obj.save()
+        return Response(status=status.HTTP_200_OK)
         
 
 

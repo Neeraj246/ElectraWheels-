@@ -25,12 +25,14 @@ class StationTable(models.Model):
     longitude = models.FloatField(null=True, blank=True)
     Email = models.CharField(max_length=30, blank=True, null=True)
     StationNumber = models.CharField(max_length=30, blank=True, null=True)
+    status = models.CharField(max_length=30, blank=True, null=True, default='active')
+    
 
 class ServiceTable(models.Model):
     LOGIN=models.ForeignKey(Logintable, on_delete=models.CASCADE)
     Name = models.CharField(max_length=30, blank=True, null=True) 
     Email = models.CharField(max_length=30, blank=True, null=True)
-    Phone = models.BigIntegerField(blank=True, null=True)
+    Phone = models.CharField(blank=True, null=True ,max_length=10)
     Address = models.CharField(max_length=30, blank=True, null=True)
 
 class FeedbackTable(models.Model):

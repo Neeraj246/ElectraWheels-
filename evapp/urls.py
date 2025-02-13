@@ -38,6 +38,7 @@ urlpatterns = [
     path('ViewService',ViewService.as_view(), name='ViewService'),
     path('bookstationslot',bookstationslot.as_view(),name='bookstationslot'),
     path('bookstationslothistory/<int:id>',bookstationslothistory.as_view(),name='bookstationslothistory'),
+    path('bookinStatus/<int:lid>',bookinStatus.as_view(),name='bookinStatus'),
 
     path('ViewSpare',ViewSpare.as_view(), name='ViewSpare'),
     path('Bookspare',Bookspare.as_view(),name='Bookspare'),

@@ -68,5 +68,5 @@ class bookinghistory_serializer(ModelSerializer):
 class SlotTableserializer(ModelSerializer):
     class Meta:
         model = SlotTable
-        fields = ['STATION', 'USER','Amount','Status']
+        fields = ['id','STATION', 'USER','Amount','Status']
 

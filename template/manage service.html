@@ -20,8 +20,16 @@
             <td>{{i.Phone}}</td>
             <td>{{i.Email}}</td>
             <td>{{i.Address}}</td></td>
-            <td><a href="/accept_service_center/{{i.LOGIN.id}}" class="btn btn-primary">accept</a><br><br>
-            <a href="/reject_service_center/{{i.LOGIN.id}}" class="btn btn-danger">reject</a></td>
+            <td>
+                {% if i.LOGIN.status == "pending" %}
+                <a href="/accept_service_center/{{i.LOGIN.id}}" class="btn btn-primary">accept</a><br><br>
+                <a href="/reject_service_center/{{i.LOGIN.id}}" class="btn btn-danger">reject</a>
+                {% elif i.LOGIN.status == "active" %}
+                <a href="/reject_service_center/{{i.LOGIN.id}}" class="btn btn-danger">reject</a>
+                {% elif i.LOGIN.status == "reject" %}
+                <a href="/accept_service_center/{{i.LOGIN.id}}" class="btn btn-primary">accept</a><br><br>
+                {% endif %}
+        </td>
         </tr>
         {% endfor %}
     </table>
