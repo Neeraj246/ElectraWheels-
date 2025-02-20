@@ -10,7 +10,7 @@ class UserSerializer(ModelSerializer):
 
 class LoginSerializer(ModelSerializer):
     class Meta:
-        models=Logintable
+        model=Logintable
         fields=['username','password']        
 
 class station_serializer(ModelSerializer):
@@ -53,7 +53,7 @@ class feedback_serializer(ModelSerializer):
 class spare_serializer(ModelSerializer):
     class Meta:
         model=SpareTable
-        fields=['Name','Amount','Details','image']     
+        fields=['id','Name','Amount','Details','image']     
 
 
 class sparebooking_serializer(ModelSerializer):

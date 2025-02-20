@@ -5,7 +5,8 @@ from django.urls import path
 from evapp.views import *
 
 urlpatterns = [
-    path('login', LoginPage.as_view(), name="login"),
+    path('logout/',Logout.as_view(), name="logout"),
+    path('', LoginPage.as_view(), name="login"),
     path('admin_home/',AdminHome.as_view(), name="admin_home"),
     # path('navigation/',NavigationPage.as_view(), name="navigation"),
     path('feedback/',FeedbackPage.as_view(), name="feedback"), 
@@ -16,7 +17,6 @@ urlpatterns = [
     path('slot/',Slotpage.as_view(), name="slot"),
     path('spares/',Sparepage.as_view(), name="spares"),
     path('sparebooking/',Sparebookingpage.as_view(), name="sparebooking"),
-    path('logout/',Logout.as_view(), name="logout"),
     path('complaint/',ComplaintPage.as_view(), name="complaint"),
     path('delete_user/<int:id>',DeleteUser.as_view(), name="delete_user"),
     path('accept_station/<int:id>',AcceptStation.as_view(), name="accept_station"),
@@ -33,6 +33,7 @@ urlpatterns = [
 # /////////////////////////////////// API ////////////////////////////////////
 
     path('LoginPageApi',LoginPageApi.as_view(), name='LoginPageApi'),
+    path('UserReg',UserReg.as_view(), name='UserReg'),
     path('viewStations',ViewStation.as_view(), name='viewStations'),
     path('submitfeedback',submitfeedback.as_view(), name='submitfeedback'),
     path('ViewService',ViewService.as_view(), name='ViewService'),
@@ -48,6 +49,7 @@ urlpatterns = [
     path('ViewReview',ViewReview.as_view(),name='ViewReview'),
     path('AddReview',AddReview.as_view(),name='AddReview'),
     path('NearestStationsAPI/<int:latitude>/<int:longitude>',NearestStationsAPI.as_view(),name='NearestStationsAPI'),
+    path('ForgotPasswordAPIView',ForgotPasswordAPIView.as_view(),name='ForgotPasswordAPIView'),
 
 
     

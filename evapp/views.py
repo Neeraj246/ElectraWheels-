@@ -9,10 +9,27 @@ from evapp.models import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from evapp.serializer import *
 
 # Create your views here.
+
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import never_cache
+
+class SessionRequiredMixin(View):
+    """Mixin to check if 'userid' exists in session, otherwise redirect to login."""
+    
+    @method_decorator(never_cache)
+    def dispatch(self, request, *args, **kwargs):
+        if not request.session.get('userid'):
+            return redirect('login')
+        return super().dispatch(request, *args, **kwargs)
+class Logout(View):
+    def get(self, request):
+        auth.logout(request)
+        return redirect('/')
 
 class LoginPage(View):
     def get(self,request):
@@ -24,10 +41,19 @@ class LoginPage(View):
             obj=Logintable.objects.get(username=username,password=password)
             request.session['user_id']=obj.id
             if obj.type =='admin':
+                auth_obj = auth.authenticate(username='auth1',password='auth1')
+                if auth_obj is not None:
+                    auth.login(request, auth_obj)
                 return HttpResponse('''<script> alert('Login Successfully'); window.location.href='/admin_home/'; </script>''')
             elif obj.type =='station' and obj.status == 'active':
+                auth_obj = auth.authenticate(username='auth1',password='auth1')
+                if auth_obj is not None:
+                    auth.login(request, auth_obj)
                 return HttpResponse('''<script> alert('Login Successfully'); window.location.href='/dash'; </script>''')
             elif obj.type =='service' and obj.status == 'active':
+                auth_obj = auth.authenticate(username='auth1',password='auth1')
+                if auth_obj is not None:
+                    auth.login(request, auth_obj)
                 return HttpResponse('''<script> alert('Login Successfully'); window.location.href='/serviceDas'; </script>''')
             else:
                 return HttpResponse('''<script> alert('not an active User'); window.location.href='/'; </script>''')
@@ -38,14 +64,20 @@ class LoginPage(View):
         except Logintable.DoesNotExist:
             messages.error(request,"Invalid username or password")
             return redirect('login')
-        
+from django.contrib import auth
+
 class Logout(View):
     def get(self, request):
+        # auth.logout(request)
         request.session.flush()
-        return HttpResponse('''<script> alert('Logout Successfully'); window.location.href='/login'; </script>''')
+        return redirect('/')
+    
+        
 
 class AdminHome(View):
+    login_url='/'
     def get(self,request):
+        print(request.session['user_id'])
         u = UserTable.objects.count()
         s = StationTable.objects.count()
         sv = ServiceTable.objects.count()
@@ -56,84 +88,100 @@ class AdminHome(View):
 #         return render(request, 'navigation.html')
     
 class FeedbackPage(View):
+    login_url='/'
     def get(self,request):
         obj= FeedbackTable.objects.all()
         return render(request, 'feedbacktable.html',{'obj':obj})
     
 class AdminPage(View):
+    login_url='/'
     def get(self,request):
         return render(request, 'administrator.html')    
     
 class ServicePage(View):
+    login_url='/'
     def get(self,request):
         obj= ServiceTable.objects.all()
         return render(request, 'manage service.html',{'obj':obj})
     
 class UserPage(View):
+    login_url='/'
     def get(self,request):
         obj = UserTable.objects.all()
         return render(request, 'manage user.html',{'obj':obj})   
 
 class StationPage(View):
+    login_url='/'
     def get(self,request):
         obj = StationTable.objects.all()
         return render(request, 'manage station.html',{'obj':obj})
     
 class ComplaintPage(View):
+    login_url='/'
     def get(self,request):
         obj = ComplaintTable.objects.all()
         return render(request, 'complainttable.html',{'obj':obj})
      
 class DeleteUser(View):
+    login_url='/'
     def get(self,request, id):
         obj = Logintable.objects.get(id=id)
         obj.delete()
         return HttpResponse('''<script> alert('Deleted Successfully'); window.location.href='/user'; </script>''')
 class AcceptStation(View):
+    login_url='/'
     def get(self,request,id):
        obj=Logintable.objects.get(id=id)
        obj.status="active"
        obj.save()
        return HttpResponse('''<script> alert('Accepted Successfully'); window.location.href='/station'; </script>''')
 class RejectStation(View):
+    login_url='/'
     def get(self,request,id):
        obj=Logintable.objects.get(id=id)
        obj.status="reject"
        obj.save()
        return HttpResponse('''<script> alert('Rejected '); window.location.href='/station'; </script>''')    
 class Acceptservicecenter(View):
+    login_url='/'
     def get(self,request,id):
        obj=Logintable.objects.get(id=id)
        obj.status="active"
        obj.save()
        return HttpResponse('''<script> alert('Accepted Successfully'); window.location.href='/service'; </script>''')
 class Rejectservicecenter(View):
+    login_url='/'
     def get(self,request,id):
        obj=Logintable.objects.get(id=id)
        obj.status="reject"
        obj.save()
        return HttpResponse('''<script> alert('Reject'); window.location.href='/service'; </script>''')
 class Slotpage(View):
+    login_url='/'
     def get(self,request):
         obj = SlotTable.objects.all()
         return render(request, 'slottable.html',{'obj':obj})
 class Sparepage(View):
+    login_url='/'
     def get(self,request):
         obj = SpareTable.objects.all()
         return render(request, 'sparetable.html',{'obj':obj})
 
 class Sparebookingpage(View):
+    login_url='/'
     def get(self,request):
         obj = SpareBookingTable.objects.all()
         return render(request, 'sparebookingtable.html',{'obj':obj})
     
 class Deleteslot(View):
+    login_url='/'
     def get(self,request, id):
         obj = SlotTable.objects.get(id=id)
         obj.delete()
         return HttpResponse('''<script> alert('Deleted Successfully'); window.location.href='/slot'; </script>''')    
     
 class Deletespare(View):
+    login_url='/'
     def get(self,request, id):
         obj = SpareTable.objects.get(id=id)
         obj.delete()
@@ -141,6 +189,7 @@ class Deletespare(View):
 
 
 class Reply(View):
+    login_url='/'
     def get(self,request, c_id):
         obj = ComplaintTable.objects.get(id=c_id)
         return render(request, 'reply.html',{'obj': obj})    
@@ -157,6 +206,7 @@ class Reply(View):
 
 
 class Addparts(View):
+    login_url='/'
     def get(self, request):
         user_id=request.session.get('user_id')
         user_obj=ServiceTable.objects.get(LOGIN__id=user_id)
@@ -173,15 +223,18 @@ class Addparts(View):
     
 
 class RegSpa(View):
+    login_url='/'
     def get(self, request):
         return render(request, 'Station/reg.html')
     
 
 class Index(View):
+    login_url='/'
     def get(self, request):
         return render(request,'index.html')
     
 class Servreg(View):
+     login_url='/'
      def get(self, request):
         return render(request,'Service/servreg.html') 
      def post(self,request):
@@ -190,14 +243,19 @@ class Servreg(View):
             f=form.save(commit=False)
             username=request.POST['username']
             password = request.POST['password']
-            login_obj= Logintable.objects.create(username=username, password=password, type="service", status="pending")
-            f.LOGIN=login_obj
-            f.save()
-            login_obj.save()
-            return HttpResponse('''<script> alert('Registered Successfully'); window.location.href='/login'; </script>''')
-            
-     
+            if Logintable.objects.filter(username=username).exists():
+            # Username already exists, handle accordingly (e.g., return an error message)
+                return HttpResponse(''''<script> alert('Username already exists');window.location.href='/servreg';</script>''')
+            else:
+                login_obj= Logintable.objects.create(username=username, password=password, type="service", status="pending")
+                f.LOGIN=login_obj
+                f.save()
+                login_obj.save()
+                return HttpResponse('''<script> alert('Registered Successfully'); window.location.href='/login'; </script>''')
+                
+        
 class Reg(View):
+   login_url='/'
    def get(self, request):
         return render(request,'Station/reg.html')
    def post(self,request):
@@ -206,27 +264,34 @@ class Reg(View):
             f=form.save(commit=False)
             username=request.POST['username']
             password = request.POST['password']
-            login_obj= Logintable.objects.create(username=username, password=password, type="station", status="pending")
-            f.LOGIN=login_obj
-            f.save()
-            login_obj.save()
-            return HttpResponse('''<script> alert('Registered Successfully'); window.location.href='/login'; </script>''')
-            
+            if Logintable.objects.filter(username=username).exists():
+            # Username already exists, handle accordingly (e.g., return an error message)
+                return HttpResponse(''''<script> alert('Username already exists');window.location.href='/reg';</script>''')
+            else:
+                login_obj= Logintable.objects.create(username=username, password=password, type="station", status="pending")
+                f.LOGIN=login_obj
+                f.save()
+                login_obj.save()
+                return HttpResponse('''<script> alert('Registered Successfully'); window.location.href='/login'; </script>''')
+                
 
 class ServiceDas(View):
+   login_url='/'
    def get(self, request):
         c = SpareBookingTable.objects.filter(SPARE__SERVICE__LOGIN_id = request.session.get('user_id'),Status='pending').count()
         a=SpareTable.objects.filter(SERVICE__LOGIN__id = request.session.get('user_id')).count()
-
+        print('-----', c)
         return render(request,'Service/serviceDas.html',{'c':c, 'a':a})  
 
 class Vieworders(View):
+   login_url='/'
    def get(self, request):
         c = SpareBookingTable.objects.filter(SPARE__SERVICE__LOGIN_id = request.session.get('user_id'))
         return render(request,'Service/Vieworders.html',{'c':c})  
    
 
 class AcceptOrder(View):
+    login_url='/'
     def get(self,request,id):
        obj=SpareBookingTable.objects.get(id=id)
        obj.Status="Accepted"
@@ -235,6 +300,7 @@ class AcceptOrder(View):
     
 
 class RejectOrder(View):
+    login_url='/'
     def get(self,request,id):
        obj=SpareBookingTable.objects.get(id=id)
        obj.Status="rejected"
@@ -242,17 +308,20 @@ class RejectOrder(View):
        return HttpResponse('''<script> alert('Rejected '); window.location.href='/vieworders'; </script>''')    
 
 class ManParts(View):
+   login_url='/'
    def get(self, request):
         c=SpareTable.objects.filter(SERVICE__LOGIN__id = request.session.get('user_id'))
         return render(request,'Service/ManParts.html',{'c':c})  
    
 class Deleteparts(View):
+    login_url='/'
     def get(self, request, pk):
         n = SpareTable.objects.get(pk=pk)
         n.delete()
         return HttpResponse('''<script> alert('deleted Successfully'); window.location.href='/manparts'; </script>''')
 
 class Editparts(View):
+    login_url='/'
     def get(self, request, pk):
         n = SpareTable.objects.get(pk=pk)
         return render(request,'Service/editparts.html',{'n':n})
@@ -264,6 +333,7 @@ class Editparts(View):
             return HttpResponse('''<script> alert('Updated Successfully'); window.location.href='/manparts'; </script>''')
 
 class Dash(View):
+    login_url='/'
     def get(self, request):
         print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
         total_alerts_count = Alert.objects.count()
@@ -282,17 +352,20 @@ class Dash(View):
         return render(request,'Station/Dash.html', {'total_alerts_count': total_alerts_count,'pending_slots_count': pending_slots_count, 'c':c})
     
 class ViewStations(View):
+    login_url='/'
     def get(self, request):
         obj=StationTable.objects.all()
         # obj=StationTable.objects.exclude(LOGIN_id=request.session['user_id'])
         return render(request,'Station/ViewStations.html', {'obj':obj})    
     
 class ManageBooking(View):
+    login_url='/'
     def get(self, request):
         c = SlotTable.objects.filter(STATION__LOGIN_id = request.session.get('user_id'))
         return render(request,'Station/ManageBooking.html', {'c':c})    
     
 class AcceptSlot(View):
+    login_url='/'
     def get(self,request,id):
        obj=SlotTable.objects.get(id=id)
        obj.Status="Start"
@@ -301,6 +374,7 @@ class AcceptSlot(View):
     
 
 class RejectSlot(View):
+    login_url='/'
     def get(self,request,id):
        obj=SlotTable.objects.get(id=id)
        obj.Status="rejected"
@@ -310,16 +384,19 @@ class RejectSlot(View):
 
 
 class ViewReviews(View):
+    login_url='/'
     def get(self, request):
         c = FeedbackTable.objects.filter(STATION__LOGIN_id = request.session.get('user_id'))
         print('##############################################',c)
         return render(request,'Station/ViewReview.html', {'c':c})
 
 class BaseServ(View):
+    login_url='/'
     def get(self, request):
         return render(request,'Service/Base.html')
 
-class Base(View):   
+class Base(View):  
+    login_url='/'
     def get(self, request):
         print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
         total_alerts_count = Alert.objects.count()
@@ -332,12 +409,14 @@ class Base(View):
         return render(request,'Station/Base.html', context)            
     
 class Emergencyalert(View):
+    login_url='/'
     def get(self, request):
         c = Alert.objects.all()
         return render(request,'Station/ViewEmergencyAlert.html',{'c':c})                
     
 
 class AlertSend(View):
+    login_url='/'
     def get(self, request):
         return render(request, 'Alert.html')
     def post(self, request):
@@ -347,11 +426,13 @@ class AlertSend(View):
             return HttpResponse('''<script> alert('Alert Sent Successfully'); window.location.href='/viewalert'</script>''')
         
 class ViewAlert(View):
+    login_url='/'
     def get(self, request):
         c = Alert.objects.all()
         return render(request, 'viewalert.html', {'c':c})
     
 class stationviewreview(View):
+    login_url='/'
     def get(self, request):
         c = FeedbackTable.objects.filter(Chargingstation__LOGIN_id = request.session.get('user_id'))
         return render(request,'Station/ViewReview.html',{'c':c})
@@ -365,7 +446,7 @@ class LoginPageApi(APIView):
         response_dict = {}
 
         # Get data from the request
-        username = request.data.get("email")
+        username = request.data.get("username")
         password = request.data.get("password")
         print("username", username, password)
         # Validate input
@@ -393,7 +474,7 @@ class LoginPageApi(APIView):
         return Response(response_dict, status=status.HTTP_200_OK)
 
 class UserReg(APIView):
-    def get(self,request):
+    def post(self,request):
         print("######################", request.data)
         user_serial = UserSerializer(data=request.data)
         login_serial = LoginSerializer(data=request.data)
@@ -403,9 +484,15 @@ class UserReg(APIView):
         if data_valid and login_valid:
             print("&&&&&&&&&&&&&&&&&&&&&&&&")
             password = request.data['password']
-            login_profile = login_serial.save(user_type='USER', password=password)
-            user_serial.save(LOGIN=login_profile)
-            return Response(user_serial.data, status=status.HTTP_201_CREATED)
+            username= request.data['username']
+            if Logintable.objects.filter(username=username).exists():
+    # Username already exists, handle accordingly (e.g., return an error message)
+                return Response({'message':"Username already exists"},status=status.HTTP_200_OK)
+            else:
+
+                login_profile = login_serial.save(type='USER', password=password)
+                user_serial.save(LOGIN=login_profile)
+                return Response(user_serial.data, status=status.HTTP_201_CREATED)
         return Response({'login_error': login_serial.errors if not login_valid else None,
                          'user_error': user_serial.errors if not data_valid else None}, status=status.HTTP_400)
 
@@ -489,17 +576,20 @@ class ViewSpare(APIView):
         spare=SpareTable.objects.all()
         print("-----------spares -->", spare)
         serializer = spare_serializer(spare, many = True)
+        print("-----------spares -->", serializer.data)
         return Response(serializer.data)   
 class Bookspare(APIView):
     def post(self, request):
         print(request.data)
-        data=request.data
-        data['USER']=UserTable.objects.get(LOGIN__ID=request.data['USER'])
-        serializer=sparebooking_serializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        print("-------->",request.data)
+        # serializer=sparebooking_serializer(data=data)
+        obj = SpareBookingTable()
+        obj.USER = UserTable.objects.get(LOGIN_id=request.data['USER'])
+        obj.SPARE = SpareTable.objects.get(id=request.data['SPARE'])
+        obj.Status = "pending"
+        obj.save()
+        return Response(status=status.HTTP_201_CREATED)
+    
 class Viewbookinghistory(APIView):
     def get(self,request,id):
         bookinghistory=SpareBookingTable.objects.filter(USER__LOGIN__id=id).all()
@@ -593,7 +683,37 @@ class bookinStatus(APIView):
         station_obj.status = "active"
         station_obj.save()
         return Response(status=status.HTTP_200_OK)
-        
+from django.core.mail import send_mail
+     
+class ForgotPasswordAPIView(APIView):
+   
+    def post(self, request, *args, **kwargs):
+        print(request.data)
+         # DRF uses request.data instead of request.POST
+
+
+        try:
+    
+            user = UserTable.objects.get(Email=request.data['email']) 
+            print(user) # Fetch user based on email
+            
+            # Generate password reset token
+            loginid=Logintable.objects.get(id=user.LOGIN.id)
+            print(loginid.password)
+
+
+            # Send email with the reset link
+            subject = "Your password is"
+            message = f" your password:\n\n{loginid.password}"
+            from_email = "nihaalaa002@gmail.com'"
+            recipient_list = [request.data['email']]
+            print("eeeeeeeeeeee")
+
+            send_mail(subject, message, from_email, recipient_list, fail_silently=False,)
+
+            return Response({"message": "Password has been sent to your email."}, status=status.HTTP_200_OK)
+        except UserTable.DoesNotExist:
+            return Response({"message": "User not found"}, status=status.HTTP_200_OK)
 
 
 
